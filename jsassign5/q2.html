@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phone Survey Form</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+
+        .card {
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+            width: 320px;
+            max-width: 90%;
+        }
+
+        .card-header {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .card-content {
+            margin-bottom: 20px;
+            color: #555;
+        }
+
+        .center-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        input[type="number"] {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 200px;
+            margin-bottom: 10px;
+        }
+
+        #errors-holder,
+        #result-holder {
+            margin-bottom: 10px;
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="card center-content">
+        <h1>Phone Survey Form</h1>
+        <form onsubmit="handleSubmit(event)">
+            <label for="age">Your age</label>
+            <input type="number" id="q_age" min="0" oninput="ageChange(event)" value="0">
+            <br>
+            <label for="q_owns_phone">Do you own a phone</label>
+            <input type="checkbox" id="q_owns_phone">
+            <br>
+            <button type="submit">Submit</button>
+        </form>
+        <div id="errors-holder"></div>
+        <div id="result-holder"></div>
+    </div>
+
+    <script>
+        function ageChange(event) {
+            const ageInput = event.target.value;
+            const errorsHolder = document.getElementById('errors-holder');
+            const submitButton = document.querySelector('button[type="submit"]');
+
+            if (ageInput < 5) {
+                errorsHolder.textContent = 'You need to be at least 5 years old to participate';
+                submitButton.disabled = true;
+            } else {
+                errorsHolder.textContent = '';
+                submitButton.disabled = false;
+            }
+        }
+
+        function handleSubmit(event) {
+            event.preventDefault();
+            const ageInput = document.getElementById('q_age').value;
+            const ownsPhoneCheckbox = document.getElementById('q_owns_phone');
+            const resultHolder = document.getElementById('result-holder');
+
+            if (ageInput === '' || ageInput < 5) {
+                resultHolder.textContent = 'Please choose age';
+                return;
+            }
+
+            if (ownsPhoneCheckbox.checked) {
+                if (ageInput < 13) {
+                    resultHolder.textContent = 'You are too young to have a phone';
+                } else {
+                    resultHolder.textContent = 'Use your phone in moderation';
+                }
+            } else {
+                if (ageInput < 13) {
+                    resultHolder.textContent = 'You will get a phone soon';
+                } else {
+                    resultHolder.textContent = 'You should get a phone';
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>

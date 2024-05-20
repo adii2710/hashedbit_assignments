@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Styling</title>
+</head>
+<body>
+    <div class='text-here' id='text-container'>This is some example text</div>
+
+    <input type="text" id="colorbox">
+    <button id="colorchange">Change Colour</button>
+
+    <br><br>
+
+    <input type="range" id="fontsize" min="10" max="100" value="55">
+
+    <br><br>
+
+    <button id="italic" class="stylebt">Italics</button>
+    <button id="underline" class="stylebt">Underline</button>
+    <button id="bold" class="stylebt">Bold</button>
+
+    <br><br>
+
+    <select id="list">
+        <option value="serif">Serif</option>
+        <option value="sans-serif">Sans-Serif</option>
+        <option value="monospace">Monospace</option>
+        <option value="cursive">Cursive</option>
+        <option value="fantasy">Fantasy</option>
+    </select>
+
+    <br><br>
+
+    <button id="getstyle">Get CSS</button>
+
+    <br><br>
+    <p id="css-props"></p>
+
+    <script>
+        document.getElementById('colorchange').addEventListener('click', function() {
+            const colorValue = document.getElementById('colorbox').value;
+            document.getElementById('text-container').style.color = colorValue;
+        });
+
+        document.getElementById('fontsize').addEventListener('input', function() {
+            const fontSizeValue = document.getElementById('fontsize').value;
+            document.getElementById('text-container').style.fontSize = fontSizeValue + 'px';
+        });
+
+        document.getElementById('italic').addEventListener('click', function() {
+            const textStyle = document.getElementById('text-container').style.fontStyle;
+            document.getElementById('text-container').style.fontStyle = textStyle === 'italic' ? 'normal' : 'italic';
+        });
+
+        document.getElementById('underline').addEventListener('click', function() {
+            const textDecoration = document.getElementById('text-container').style.textDecoration;
+            document.getElementById('text-container').style.textDecoration = textDecoration.includes('underline') ? 'none' : 'underline';
+        });
+
+        document.getElementById('bold').addEventListener('click', function() {
+            const fontWeight = document.getElementById('text-container').style.fontWeight;
+            document.getElementById('text-container').style.fontWeight = fontWeight === 'bold' ? 'normal' : 'bold';
+        });
+
+        document.getElementById('list').addEventListener('change', function() {
+            const fontFamily = document.getElementById('list').value;
+            document.getElementById('text-container').style.fontFamily = fontFamily;
+        });
+
+        document.getElementById('getstyle').addEventListener('click', function() {
+            const textContainerStyle = document.getElementById('text-container').style;
+            const cssProps = document.getElementById('css-props');
+            cssProps.textContent = '';
+            for (let prop in textContainerStyle) {
+                if (textContainerStyle.hasOwnProperty(prop) && textContainerStyle[prop]) {
+                    cssProps.textContent += `${prop}: ${textContainerStyle[prop]}; `;
+                }
+            }
+        });
+    </script>
+</body>
+</html>

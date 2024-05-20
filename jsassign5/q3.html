@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            animation: gradientAnimation 15s ease infinite;
+        }
+
+        @keyframes gradientAnimation {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .container {
+            max-width: 500px;
+            width: 100%;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        header {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .todo-form {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .todo-input {
+            flex: 1;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        .todo-button {
+            padding: 8px 16px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .todo-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .todo-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .todo-item span {
+            flex: 1;
+            margin-right: 10px;
+        }
+
+        .complete-btn,
+        .trash-btn {
+            padding: 4px 8px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .complete-btn:hover,
+        .trash-btn:hover {
+            background-color: #0056b3;
+        }
+
+        .completed span {
+            text-decoration: line-through;
+            color: #ccc;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>My Todo List</header>
+        <form class="todo-form" onsubmit="submitfn(event)">
+            <input type="text" class="todo-input" placeholder="Enter task">
+            <button type="submit" class="todo-button">ADD</button>
+        </form>
+        <ul class="todo-list">
+        </ul>
+    </div>
+
+    <script>
+        function submitfn(event) {
+            event.preventDefault();
+            const todoInput = document.querySelector('.todo-input');
+            const todoValue = todoInput.value.trim();
+
+            if (todoValue !== '') {
+                addTask(todoValue);
+                todoInput.value = '';
+            }
+        }
+
+        function addTask(taskName) {
+            const todoList = document.querySelector('.todo-list');
+            const taskItem = document.createElement('li');
+            taskItem.classList.add('todo-item');
+            taskItem.innerHTML = `
+                <span>${taskName}</span>
+                <button class="complete-btn">Complete</button>
+                <button class="trash-btn">Delete</button>
+            `;
+            todoList.appendChild(taskItem);
+
+            taskItem.querySelector('.complete-btn').addEventListener('click', toggleCompleted);
+            taskItem.querySelector('.trash-btn').addEventListener('click', deleteTask);
+        }
+
+        function toggleCompleted(event) {
+            const task = event.target.parentElement;
+            task.classList.toggle('completed');
+        }
+
+        function deleteTask(event) {
+            const task = event.target.parentElement;
+            task.remove();
+        }
+    </script>
+</body>
+
+</html>

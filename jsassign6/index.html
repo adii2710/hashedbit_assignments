@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stopwatch with Milliseconds</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+
+        #time {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 18px;
+            margin-right: 10px;
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+    </style>
+    <script>
+        let timer;
+        let hours = 0;
+        let minutes = 0;
+        let seconds = 0;
+        let milliseconds = 0;
+        let running = false;
+
+        function start() {
+            if (!running) {
+                running = true;
+                document.getElementById('pause').innerText = 'Pause';
+                document.getElementById('start').disabled = true;
+                document.getElementById('pause').disabled = false;
+                document.getElementById('stop').disabled = false;
+
+                timer = setInterval(updateTime, 10); // Update every 10 milliseconds for millisecond precision
+            }
+        }
+
+        function pause() {
+            if (running) {
+                running = false;
+                document.getElementById('pause').innerText = 'Continue';
+                clearInterval(timer);
+            } else {
+                running = true;
+                document.getElementById('pause').innerText = 'Pause';
+                timer = setInterval(updateTime, 10);
+            }
+        }
+
+        function stop() {
+            running = false;
+            clearInterval(timer);
+            hours = 0;
+            minutes = 0;
+            seconds = 0;
+            milliseconds = 0;
+            document.getElementById('time').innerText = '00:00:00:000';
+            document.getElementById('start').disabled = false;
+            document.getElementById('pause').disabled = true;
+            document.getElementById('stop').disabled = true;
+        }
+
+        function updateTime() {
+            milliseconds += 10; // Increment by 10 milliseconds for each update
+            if (milliseconds >= 1000) {
+                seconds++;
+                milliseconds = 0;
+            }
+            if (seconds === 60) {
+                minutes++;
+                seconds = 0;
+            }
+            if (minutes === 60) {
+                hours++;
+                minutes = 0;
+            }
+            const formattedTime = pad(hours) + ':' + pad(minutes) + ':' + pad(seconds) + ':' + pad(milliseconds, 3);
+            document.getElementById('time').innerText = formattedTime;
+        }
+
+        function pad(num, size = 2) {
+            let padded = num.toString();
+            while (padded.length < size) {
+                padded = '0' + padded;
+            }
+            return padded;
+        }
+    </script>
+</head>
+
+<body>
+    <div id="time">00:00:00:000</div>
+    <button onclick="start()" id="start">Start</button>
+    <button onclick="pause()" id="pause" disabled>Pause</button>
+    <button onclick="stop()" id="stop" disabled>Stop</button>
+
+</body>
+
+</html>

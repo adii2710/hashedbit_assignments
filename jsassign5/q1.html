@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hot & Cold Game</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+
+        .card {
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+            width: 320px;
+            max-width: 90%;
+        }
+
+        .card-header {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .card-content {
+            margin-bottom: 20px;
+            color: #555;
+        }
+
+        .center-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        #btn {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #btn:hover {
+            background-color: #0056b3;
+        }
+
+        input[type="number"] {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 200px;
+            margin-bottom: 10px;
+        }
+    </style>
+    <script>
+        function displayRandomNumber() {
+            let randomNumber = Math.floor(Math.random() * (41)) - 20;
+            console.log(randomNumber)
+            let userGuesNumber = document.getElementById('userInput').value;
+            console.log(userGuesNumber)
+            const difference = Math.abs(randomNumber - userGuesNumber);
+            if (difference === 0) {
+                displayResult("Congratulations! You guessed the correct number!", randomNumber);
+            } else if (randomNumber < 0) {
+                displayResult("Cold", randomNumber);
+            } else {
+                displayResult("Hot", randomNumber);
+            }
+
+        }
+        function displayResult(message, randomNumber) {
+            document.getElementById("card-content").innerHTML = `
+                <div class="card-header">Result</div>
+                <div class="card-content">
+                    <div>Random Number: ${randomNumber}</div>
+                    <div>${message}</div>
+                </div>`;
+        }
+    </script>
+</head>
+
+<body>
+    <div class="card center-content">
+        <p id="main">I am learning to generate random numbers. I will be able to handle randomness in any of my applications
+            that needs it. Press the button to get a random number.
+        </p>
+        <input type="number" placeholder="Enter Number between -20 to 20" id="userInput">
+        <button id="btn" onclick="displayRandomNumber()">Click Me</button>
+        <br>
+        <div id="card-content" class="card-content"></div>
+    </div>
+</body>
+
+</html>
